@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H4CK3R G4M3S</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: monospace;
+            text-align: center;
+            overflow: hidden;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            z-index: -1;
+        }
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .game-button {
+            background-color: #00ff00;
+            color: black;
+            padding: 15px;
+            margin: 10px;
+            width: 200px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            text-decoration: none;
+            border: none;
+        }
+        .game-button:hover {
+            background-color: #009900;
+        }
+        #game-frame {
+            width: 90vw;
+            height: 90vh;
+            border: 2px solid #00ff00;
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .home-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #00ff00;
+            color: black;
+            padding: 15px;
+            width: 200px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            display: none;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <h1>H4CK3R G4M3S</h1>
+    <p>Click a game below to start playing!</p>
+    <div class="game-container" id="game-selection">
+        <button class="game-button" onclick="loadGame('https://kzmnokkixg206ly3xoac.lite.vusercontent.net/')">Circle Soccer</button>
+        <button class="game-button" onclick="loadGame('https://v0-remake-awesome-tanks.vercel.app/')">Tank Trouble</button>
+    </div>
+    <iframe id="game-frame"></iframe>
+    <button class="home-button" onclick="goHome()">Home</button>
+    <script>
+        function loadGame(url) {
+            document.getElementById('game-frame').src = url;
+            document.getElementById('game-frame').style.display = 'block';
+            document.getElementById('game-selection').style.display = 'none';
+            document.querySelector('.home-button').style.display = 'block';
+        }
+        function goHome() {
+            document.getElementById('game-frame').style.display = 'none';
+            document.getElementById('game-selection').style.display = 'flex';
+            document.querySelector('.home-button').style.display = 'none';
+        }
+        const canvas = document.getElementById("matrix");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const columns = Math.floor(canvas.width / 20);
+        const drops = Array(columns).fill(0);
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00ff00";
+            ctx.font = "16px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                let text = Math.random() > 0.5 ? "1" : "0";
+                ctx.fillText(text, i * 20, drops[i] * 20);
+                if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 50);
+    </script>
+</body>
+</html>
